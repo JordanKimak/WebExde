@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Pelacakan</title>
+</head>
+<body>
+    <h1>Link Pelacakan</h1>
+    <p>Klik link di bawah ini untuk memberikan izin pelacakan lokasi Anda:</p>
+    <a href="track.php" id="trackingLink">Klik di sini untuk melacak lokasi Anda</a>
+    <script>
+        document.getElementById('trackingLink').addEventListener('click', function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    // Kirim data lokasi ke server
+                    fetch('track.php', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                });
+            } else {
+                alert("Geolocation tidak didukung oleh browser ini.");
+            }
+        });
+    </script>
+</body>
+</html>
