@@ -9,12 +9,13 @@
     <h1>Link Pelacakan</h1>
     <p>Klik link di bawah ini untuk memberikan izin pelacakan lokasi Anda:</p>
     <a href="track.php" id="trackingLink">Klik di sini untuk melacak lokasi Anda</a>
+
     <script>
         document.getElementById('trackingLink').addEventListener('click', function() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function(position) {
                     // Kirim data lokasi ke server
-                    fetch('track.php', {
+                    fetch('t.php', {
                         method: 'POST',
                         body: JSON.stringify({
                             latitude: position.coords.latitude,
