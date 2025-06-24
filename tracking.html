@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelacakan Lokasi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pelacakan Lokasi (Opsional)</h1>
+    <p>
+        Klik tombol di bawah ini untuk membagikan lokasi Anda.
+        <strong>Data hanya digunakan untuk analisis</strong>.
+    </p>
+    <button id="trackBtn">Izinkan Pelacakan Lokasi</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("trackBtn").addEventListener("click", () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        document.getElementById("result").innerHTML = `<p>Lokasi telah direkam: <strong>Lat: ${lat}, Lng: ${lng}</strong></p>`;
+                        
+                        // Kirim data ke GitHub Pages (gunakan localStorage karena GitHub Pages tidak mendukung backend)
+                        localStorage.setItem("last_tracked_location", JSON.stringify({
+                            lat,
+                            lng,
+                            time: new Date().toISOString()
+                        }));
+                    },
+                    (error) => {
+                        alert(`Error: ${error.message}`);
+                    }
+                );
+            } else {
+                alert("Browser tidak mendukung geolocation!");
+            }
+        });
+    </script>
+</body>
+</html>
